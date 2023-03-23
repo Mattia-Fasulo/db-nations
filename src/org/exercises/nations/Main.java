@@ -1,6 +1,7 @@
 package org.exercises.nations;
 
 import java.sql.*;
+import java.util.Scanner;
 
 public class Main {
 
@@ -11,6 +12,8 @@ public class Main {
 
     public static void main(String[] args) {
 
+        Scanner scan = new Scanner(System.in);
+
         //provo ad aprire una connessione con i parametri passati
         try(Connection connection = DriverManager.getConnection(URL,USER,PASSWORD)){
 
@@ -19,11 +22,17 @@ public class Main {
                     from countries c\s
                     join regions r on r.region_id = c.region_id\s
                     join continents c2  on c2.continent_id = r.continent_id\s
+                    where c.name like "%"?"%"
                     order by c.name;\s
                     """;
+
+            System.out.print("search for a country: ");
+            String searchString = scan.nextLine();
+
             //chiedo alla connection di preparare uno statement SQL con la query passata come parametro
             try(PreparedStatement ps = connection.prepareStatement(query, ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY)){
 
+                ps.setString(1, searchString);
                 //provo a eseguire la query e se va a buon fine metto il risultato nel ResultSet
                 try(ResultSet rs = ps.executeQuery()){
                     //controllo che il ResultSet non sia vuoto
