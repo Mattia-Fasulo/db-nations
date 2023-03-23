@@ -77,10 +77,8 @@ public class Main {
 
 
             String query = """
-                    select c.name, l.`language` , cs.population , cs.gdp, cs.`year`\s
-                    from countries c
-                    join regions r on r.region_id = c.region_id\s
-                    join continents cont on cont.continent_id = r.continent_id
+                    select c.name, l.`language`, cs.`year` , cs.population , cs.gdp\s
+                    from countries c                 \s
                     join country_languages cl on cl.country_id =c.country_id\s
                     join languages l on l.language_id = cl.language_id\s
                     join country_stats cs on cs.country_id =c.country_id\s
@@ -110,9 +108,9 @@ public class Main {
 
                         String name = rs.getString(1) ;
                         String language = rs.getString(2);
-                        String population = String.valueOf(rs.getInt(3)) ;
-                        String gdp = String.valueOf(rs.getBigDecimal(4));
-                        String year = String.valueOf(rs.getInt(5));
+                        String year = String.valueOf(rs.getInt(3));
+                        String population = String.valueOf(rs.getInt(4)) ;
+                        String gdp = String.valueOf(rs.getBigDecimal(5));
 
                         statCountry.put("country", name);
                         statCountry.put("population", population);
